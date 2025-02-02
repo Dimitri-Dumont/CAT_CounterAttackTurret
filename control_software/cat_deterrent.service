@@ -1,0 +1,12 @@
+[Unit]
+Description=Cat Deterrent System
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/dimi/cat_deterrent.py
+User=dimi
+WorkingDirectory=/home/dimi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
