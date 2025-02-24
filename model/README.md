@@ -25,8 +25,8 @@ This notebook trains a binary image classifier to detect cats in images. The mod
 ## Dataset
 
 The training data combines two sources:
-- Cat images from [dataset source]
-- Non-cat (house) images from [dataset source]
+- Cat images from [https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset]
+- Non-cat (house) images from [https://www.kaggle.com/datasets/mikhailma/house-rooms-streets-image-dataset]
 
 Data structure:
 
