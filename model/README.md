@@ -1,26 +1,20 @@
 # CAT Model Training
 
-This notebook trains a binary image classifier to detect cats in images. The model is designed to run on a Raspberry Pi as part of the Counter Attack Turret (CAT) project.
+This notebook trains a binary image classifier to detect cats in images. The model is designed to run on a Raspberry Pi as part of the Counter Attack Turret (CAT) project. The notebbok is designed to run locally on Nvidia Cuda enabled gpus. Notebook can be easily altered run in Google Colab. 
 
-## Prerequisites
-
-- NVIDIA GPU with CUDA support
-- Python 3.8+
-- TensorFlow 2.x
-- CUDA Toolkit and cuDNN
 
 ## Setup
 
-1. Run the CUDA setup script to configure the environment:# CAT Model Training
-
-This notebook trains a binary image classifier to detect cats in images. The model is designed to run on a Raspberry Pi as part of the Counter Attack Turret (CAT) project.
+1. Run the CUDA setup script to configure the environment:
 
 ## Prerequisites
 
 - NVIDIA GPU with CUDA support
-- Python 3.8+
-- TensorFlow 2.x
-- CUDA Toolkit and cuDNN
+
+## !NOTE! - you must use exact versions for the following otherwise GPU will not be detected: 
+- Python 3.8
+- TensorFlow 2.7.0
+- CUDA Toolkit 11.2 and cuDNN 8.1
 
 ## Setup
 
