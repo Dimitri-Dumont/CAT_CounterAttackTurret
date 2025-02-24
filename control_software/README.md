@@ -25,24 +25,26 @@ The `cat_deterrent.py` control software provides the following features:
 ### 1. Copy Control Software
 Create directory if it doesn't exist
 
-```bash
+```
 
 sudo mkdir -p /home/pi/CAT_CounterAttackTurret/control_software
 Copy the script
 sudo cp cat_deterrent.py /home/pi/CAT_CounterAttackTurret/control_software/
-bash
-sudo nano /etc/systemd/system/cat_deterrent.service
+sudo cp cat_deterrent.service /etc/systemd/system/cat_deterrent.service
+
 ```
 To enable and start the service:
-```bash
+```
 sudo systemctl enable cat_deterrent.service
 sudo systemctl start cat_deterrent.service
 ```
 To check the status of the service:
-```bash
+```
 sudo systemctl status cat_deterrent.service
 ```
 To view the logs:
+```
 journalctl -u cat_deterrent.service
+```
 
 ![Training History](Cat_Diagram.jpg)
