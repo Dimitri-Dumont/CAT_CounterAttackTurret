@@ -35,6 +35,5 @@ python3 <test_script>.py
 Each `.py` file in this directory is a standalone test script for validating specific hardware components:
 - `servo_test.py` - Tests servo motor functionality
 - `camera_test.py` - Validates camera input
-- [Add other test files as they are created]
-
+- etc
 Note: Ensure all required hardware components are properly connected before running tests.
