@@ -1,6 +1,8 @@
 from picamera2 import Picamera2
 from gpiozero import Servo, OutputDevice
-import tensorflow as tf
+import tflite_runtime.interpreter as tflite
+from PIL import Image
+import io
 import numpy as np
 import time
 import smtplib
@@ -20,13 +22,13 @@ class CATDeterrent:
     def __init__(self):
         # Email configuration
         self.sender_email = "dimitri3991@gmail.com"
-        self.sender_password = "your_app_password"
+        self.sender_password = "phgk spyi uetc btux"
         self.receiver_email = "dimitri3991@gmail.com"
         
-        # Initialize camera
+        # Initialize camera with basic configuration
         self.camera = Picamera2()
-        config = self.camera.create_still_configuration()
-        self.camera.configure(config)
+        preview_config = self.camera.create_preview_configuration()
+        self.camera.configure(preview_config)
         
         # Initialize servos
         self.servo = Servo(23)   # GPIO17
@@ -51,6 +53,18 @@ class CATDeterrent:
         """Clean up any temporary files from previous runs."""
         if os.path.exists("temp_capture.jpg"):
             os.remove("temp_capture.jpg")
+
+    def load_model(self):
+        """Load TFLite model."""
+        try:
+            # Try simple interpreter first
+            interpreter = tflite.Interpreter(model_path="/home/dimi/w.tflite")
+            interpreter.allocate_tensors()
+            return interpreter
+        except Exception as e:
+            print(f"Error loading model: {str(e)}")
+            print("Please ensure the model is a valid TFLite model.")
+            raise
     
     def capture_and_process(self):
         """Capture image and check for cat, managing storage efficiently."""
@@ -59,8 +73,8 @@ class CATDeterrent:
         self.camera.capture_file(temp_path)
         
         # Load and process image for inference
-        with tf.io.read_file(temp_path) as image_file:
-            image = tf.image.decode_jpeg(image_file, channels=3)
+        with Image.open(temp_path) as image:
+            image = np.array(image)
             processed_image = self.process_image(image)
             
             # Run detection
@@ -77,10 +91,19 @@ class CATDeterrent:
                 os.remove(temp_path)
                 return False, None, image
     
+    # Then in your process_image method, replace tf operations with PIL:
     def process_image(self, image):
         """Preprocess image for model inference."""
-        image = tf.image.resize(image, self.img_size)
-        image = tf.cast(image, tf.float32) / 255.0
+        # Convert to PIL Image if it's not already
+        if not isinstance(image, Image.Image):
+            image = Image.fromarray(image)
+        
+        # Resize and convert to numpy array
+        image = image.resize(self.img_size)
+        image = np.array(image)
+        
+        # Normalize and add batch dimension
+        image = image.astype(np.float32) / 255.0
         image = np.expand_dims(image, axis=0)
         return image
     
@@ -174,8 +197,7 @@ class CATDeterrent:
             print("\nStopping CAT deterrent system...")
         finally:
             self.camera.stop()
-            self.pan_servo.detach()
-            self.tilt_servo.detach()
+            self.servo.detach()
             self.pump.off()
             self.cleanup_temp_files()
             print("System shutdown complete")
